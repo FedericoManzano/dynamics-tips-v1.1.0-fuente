@@ -1,6 +1,5 @@
 
 import $ from "jquery";
-import  "../../css/estilos-dynamics.css";
 import Posicionamiento from "./Posicionamiento"
 
 

@@ -5,7 +5,7 @@ module.exports = {
   entry: './src/app.js',
   output: {
     path: path.join(__dirname, 'dist/js'),
-    filename: 'dynamics.bundle.min.js'
+    filename: 'dynamics.min.js'
   },
   module: {
     rules: [
