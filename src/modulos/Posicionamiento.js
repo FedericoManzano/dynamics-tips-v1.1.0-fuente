@@ -46,9 +46,11 @@ class Posicionamiento {
         $(ele).css("transform", "translateY(-15px)")
         let reacX = $(ele).outerWidth() -  $(origen).outerWidth()
         if(Posicionamiento.despIzquierda(ele) !== 0) 
-            $(ele).css("left", Posicionamiento.posX(origen) + (reacX*-1) / 2 + Posicionamiento.despIzquierda(ele))
+            $(ele).css("left", Posicionamiento.posX(origen) + (reacX*-1) / 2 
+                + Posicionamiento.despIzquierda(ele))
         if(Posicionamiento.despDerecha(origen, ele) !== 0) 
-            $(ele).css("left", Posicionamiento.posX(origen) + (reacX*-1) / 2 + Posicionamiento.despDerecha(origen, ele))
+            $(ele).css("left", Posicionamiento.posX(origen) + (reacX*-1) / 2 
+                + Posicionamiento.despDerecha(origen, ele))
     }
 
     static despIzquierda  ( ele)  {
