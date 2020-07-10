@@ -11,9 +11,25 @@
 </head>
 <body>
 
-    <div class="contenedor">
-        <a  class="btn fd-rojo com-trigger" data-info="Este es un botón de bodystyle css"
-        data-pos="derecha">Boton</a>
+
+      <!-- DROPDOWN EN EL NAV -->
+      <nav>
+        <div  class="nav-body">
+            <a  class="nav-logo">Logo</a>
+            <ul  class="lista">
+                <li><a>Inicio</a></li>
+                <li><a>Servicios</a></li>
+                <li><a  class="dropdown-toggle"  data-target="#drop2">Porfolio</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- LISTA -->
+    <div  id="drop2"  class="dropdown">
+    
+            <a>Trabajo</a>
+            <a>Amigos</a>
+            <a>Parque</a>
     </div>
     <script src="../dist/js/dynamics.js"></script>
 </body>

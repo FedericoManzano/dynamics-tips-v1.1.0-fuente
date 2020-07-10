@@ -1,114 +1,120 @@
 import $ from "jquery"
 
-
 class Posicionamiento {
-    static posX (origen) {
-        return $(origen).offset().left
+    static posicionamientoInicialX  (origen, ele) {
+        var x = $(origen).offset().left
+        $(ele).css("left", x)
+        return x
     }
 
-    static posY (origen) {
-        return $(origen).offset().top
+    static posicionamientoInicialY  (origen, ele) {
+        var y = $(origen).offset().top
+        $(ele).css("top", y)
+        return y
     }
 
-
-    static dameCoordenadasIniciales (origen, ele) {
-        let reacX = $(ele).outerWidth() -  $(origen).outerWidth()
-        let reactY = $(ele).outerHeight() -  $(origen).outerHeight()
-        return {x: Posicionamiento.posX(origen) + (reacX*-1) / 2, y: Posicionamiento.posY(origen) + (reactY*-1) / 2}
+    static puedeArriba  (origen, ele) {
+        const offsetTopOrigen = $(origen).offset().top
+        const wScrollTop = $(window).scrollTop() 
+        const tipsHeight = $(ele).outerHeight()
+        return offsetTopOrigen - wScrollTop >  tipsHeight + 10
     }
 
-    static posicionamientoInicial (origen, ele) {
-        let reacX = $(ele).outerWidth() -  $(origen).outerWidth()
-        let reactY = $(ele).outerHeight() -  $(origen).outerHeight()
-        $(ele).css("left", Posicionamiento.posX(origen) + (reacX*-1) / 2)
-        $(ele).css("top", Posicionamiento.posY(origen) + (reactY*-1) / 2)
-        return {x: Posicionamiento.posX(origen) + (reacX*-1) / 2, y: Posicionamiento.posY(origen) + (reactY*-1) / 2}
-    }
-
-    static puedeAbajo  (origen, ele) {
-        let espacio = ($(window).height() + $(window).scrollTop()) - ($(origen).offset().top + $(origen).outerHeight())
-        return $(ele).outerHeight() < espacio - 15
-    }
-
-    static posicionarAbajo  (origen, ele) {
-        $(ele).css("top", Posicionamiento.posY(origen) + $(origen).outerHeight())
-        $(ele).css("transform", "translateY(15px)")
-        let reacX = $(ele).outerWidth() -  $(origen).outerWidth()
-        if(Posicionamiento.despIzquierda(ele) !== 0) 
-            $(ele).css("left", Posicionamiento.posX(origen) + (reacX*-1) / 2 + Posicionamiento.despIzquierda(ele))
-        if(Posicionamiento.despDerecha(origen, ele) !== 0) 
-            $(ele).css("left", Posicionamiento.posX(origen, ele) + (reacX*-1) / 2 - Posicionamiento.despDerecha(origen, ele))
+    static puedeAbajo (origen, ele)  {
+        const windowHeight = $(window).height()
+        const wScrollTop = $(window).scrollTop() 
+        const origenOffsetTop = $(origen).offset().top
+        const origenHeight = $(origen).outerHeight()
+        const tipsHeight = $(ele).outerHeight()
+        return windowHeight + wScrollTop - 
+                (origenOffsetTop + origenHeight)  
+                                > tipsHeight + 10
     }
 
 
-    static posicionarArriba  (origen, ele)  {
-        $(ele).css("top", Posicionamiento.posY(origen) - $(ele).outerHeight())
-        $(ele).css("transform", "translateY(-15px)")
-        let reacX = $(ele).outerWidth() -  $(origen).outerWidth()
-        if(Posicionamiento.despIzquierda(ele) !== 0) 
-            $(ele).css("left", Posicionamiento.posX(origen) + (reacX*-1) / 2 
-                + Posicionamiento.despIzquierda(ele))
-        if(Posicionamiento.despDerecha(origen, ele) !== 0) 
-            $(ele).css("left", Posicionamiento.posX(origen) + (reacX*-1) / 2 
-                + Posicionamiento.despDerecha(origen, ele))
+    static puedeDerecha (origen, ele) {
+        const windowWidth = $(window).width()
+        const origenOffsetLeft = $(origen).offset().left
+        const origenWidth = $(origen).width()
+        const tipsWidth = $(ele).width()
+        return windowWidth - origenOffsetLeft - origenWidth - 80 > tipsWidth + 5
     }
 
-    static despIzquierda  ( ele)  {
-        let offsetIzq = $(ele).offset().left 
-        return offsetIzq < 0 ? offsetIzq *-1 +10: 0  
+    static puedeIzquierda  (origen, ele) {
+        return $(origen).offset().left > $(ele).width() + 5
     }
 
-    static despDerecha  ( origen, ele)  {
-        let offsetDer= $(window).width() -  $(origen).offset().left - $(origen).outerWidth()
-        if($(ele).outerWidth() - $(origen).outerWidth() > 0)
-            return offsetDer - Math.abs(($(ele).outerWidth() - $(origen).outerWidth()) / 2) < 0 ? Math.abs(($(ele).outerWidth() - $(origen).outerWidth()) / 2) + 5 : 0  
-        return 0
-     }
-
-    static puedeArriba  (origen, ele)  {
-        let espacio = $(origen).offset().top - $(window).scrollTop()
-        return $(ele).outerHeight() < espacio - 15
+    static reacomodamientoHorizontal (origen, ele) {
+        var corr = ($(origen).outerWidth() ) - $(ele).outerWidth()
+        return Posicionamiento.posicionamientoInicialX(origen,ele) +  Math.round(corr / 2)
     }
 
-    static puedeDerecha  (origen, ele)  {
-        let espacio = $(window).width() - $(origen).outerWidth() - $(origen).offset().left
-        return espacio - $(ele).outerWidth() >= 15
+    static reacomodamientoVertical (origen, ele) {
+        var corr = ($(origen).outerHeight() ) - $(ele).outerHeight()
+        return Posicionamiento.posicionamientoInicialY(origen,ele) + Math.round(corr / 2)
     }
 
-    static posicionarDerecha  (origen, ele)  {
-        $(ele).css("left", $(origen).offset().left + $(origen).outerWidth())
-        $(ele).css("transform", "translate(15px)")
-        Posicionamiento.despArriba(origen, ele)
-        Posicionamiento.despAbajo(origen, ele)
+
+    static topeIzquierda  (ele) {
+        const despIzq = $(ele).offset().left
+        return despIzq <= 0 ? despIzq*-1 : 0
     }
 
-    static puedeIzquierda  (origen, comentario)  {
-        return $(origen).offset().left - $(comentario).outerWidth() + 15 > 0
+    static topeArriba (ele) {
+        const despArr = $(ele).offset().top - $(window).scrollTop()
+        return despArr <= 0 ? (despArr - 10)*-1 : 0
     }
 
-    static despArriba (origen, comentario)  {
-        let despCom = $(comentario).offset().top - $(window).scrollTop()
-        if(despCom < 0) 
-            $(comentario).css("top", Posicionamiento.dameCoordenadasIniciales(origen, comentario).y 
-                + despCom*-1 + 10)
-    } 
-
-    static despAbajo  (origen, comentario)  {
-        let espacio = $(window).height() - $(comentario).offset().top - $(window).scrollTop()
-        if(espacio < 0) 
-            $(comentario).css("top", 
-                Posicionamiento.dameCoordenadasIniciales(origen, comentario).y - 
-                    $(comentario).outerHeight() / 2 )
-    } 
-
-    static posicionarIzquierda  (origen, ele) {
-        let espacioTotal = $(origen).offset().left 
-        let corr = espacioTotal - $(ele).outerWidth()
-        $(ele).css("left", corr)
-        $(ele).css("transform", "translate(-15px)")
-        Posicionamiento.despArriba(origen, ele)
-        Posicionamiento.despAbajo(origen, ele)
+    static topeDerecha  (ele) {
+        const despDer = $(window).width() - $(ele).offset().left - $(ele).outerWidth()
+        return despDer <= 0 ? Math.round((despDer - 10)) : 0
     }
+
+    static posicionarArriba (origen, ele) {
+        $(ele).css("top", $(origen).offset().top - $(ele).outerHeight() - 5)
+
+        var di = Posicionamiento.topeIzquierda(ele)
+        var td = Posicionamiento.topeDerecha(ele) 
+
+        if(di !== 0){
+            $(ele).css("left",  Posicionamiento.reacomodamientoHorizontal(origen,ele) + di)
+            td=0
+        }
+        if(td !== 0)
+            $(ele).css("left",  Posicionamiento.reacomodamientoHorizontal(origen,ele) + td )
+        $(ele).css({transform: 'translateY(-12px)'})
+    }
+
+
+    static posicionarAbajo (origen, ele)  {
+        $(ele).css("top", $(origen).offset().top +$(origen).outerHeight() + 5)
+        var di = Posicionamiento.topeIzquierda(ele)
+        var td = Posicionamiento.topeDerecha(ele) 
+        if(di !== 0){
+            $(ele).css("left",  Posicionamiento.reacomodamientoHorizontal(origen,ele) + di)
+            td=0
+        }
+        if(td !== 0)
+            $(ele).css("left",  Posicionamiento.reacomodamientoHorizontal(origen,ele) + td )
+        $(ele).css({transform: 'translateY(12px)'})
+    }
+
+    static posicionarIzquierda (origen, ele) {
+        $(ele).css("left", $(origen).offset().left - $(ele).width() - 25)
+        var da = Posicionamiento.topeArriba(ele)
+        if(da !== 0)
+            $(ele).css("top", Posicionamiento.reacomodamientoVertical(origen,ele) + da)
+        $(ele).css({transform: 'translateX(-12px)'})
+    }
+
+    static posicionarDerecha (origen, ele) {
+        $(ele).css("left", $(origen).offset().left + $(origen).outerWidth() + 10)
+        let da = Posicionamiento.topeArriba(ele)
+        if(da !== 0)
+           $(ele).css("top", Posicionamiento.reacomodamientoVertical(origen, ele) + da)
+        $(ele).css({transform: 'translateX(12px)'})
+    }
+
 }
 
 

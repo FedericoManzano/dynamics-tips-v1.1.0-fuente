@@ -1,6 +1,6 @@
 import $ from "jquery" 
 import Posicionamiento from "./Posicionamiento"
-
+import "../../css/estilos-dynamics.css"
 (function(){
 
     let comentario = null, 
@@ -8,7 +8,8 @@ import Posicionamiento from "./Posicionamiento"
         comp = null
 
     const arrancar = (origen, comentario) => {
-        Posicionamiento.posicionamientoInicial(origen, comentario)
+        $(comentario).css("left",Posicionamiento.reacomodamientoHorizontal(origen,comentario))
+        $(comentario).css("top",Posicionamiento.reacomodamientoVertical(origen, comentario))
         let pos = $(origen).data("pos")
 
         switch( pos ) {

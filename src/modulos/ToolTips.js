@@ -1,6 +1,6 @@
 import $ from "jquery";
 import Posicionamiento from "./Posicionamiento"
-
+import "../../css/estilos-dynamics.css"
 
 (function () {
 
@@ -22,6 +22,8 @@ import Posicionamiento from "./Posicionamiento"
     const realizarAparicion = (origen, ele) => {
         let pos = $(origen).data("pos")
         let mueca = null
+        $(ele).css("left",Posicionamiento.reacomodamientoHorizontal(origen,ele))
+        $(ele).css("top",Posicionamiento.reacomodamientoVertical(origen,ele))
         switch(pos) {
             case "arriba": 
                 if(Posicionamiento.puedeArriba(origen, ele)) {
@@ -200,7 +202,6 @@ import Posicionamiento from "./Posicionamiento"
 
     const activar = (origen, ele) => {
         $("body").append(ele)
-        Posicionamiento.posicionamientoInicial(origen, ele)
         realizarAparicion(origen, ele)
     }
 

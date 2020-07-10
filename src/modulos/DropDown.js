@@ -1,7 +1,7 @@
 
 import $ from "jquery";
 import Posicionamiento from "./Posicionamiento"
-
+import "../../css/estilos-dynamics.css"
 
 (function () {
     let  comp  
@@ -12,8 +12,9 @@ import Posicionamiento from "./Posicionamiento"
     const posicionar = (origen) => {
         let dropdown = $(origen).data("target")
         $(dropdown).show()
-        Posicionamiento.posicionamientoInicial(origen, dropdown)
-
+        $(dropdown).css("left",Posicionamiento.reacomodamientoHorizontal(origen,dropdown))
+        $(dropdown).css("top",Posicionamiento.reacomodamientoVertical(origen, dropdown))
+        
         let pos = $(origen).data("pos")
         switch(pos) {
             case "abajo":
