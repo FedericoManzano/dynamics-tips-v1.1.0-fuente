@@ -124,7 +124,7 @@ import "../../css/estilos-dynamics.css"
             $(comentario).show()
             arrancar(origen, comentario)
         }, () => {
-            $(comentario).remove()
+            $(".com-dinamico").remove()
         })
     }
     const inicializar = () => {
